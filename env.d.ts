@@ -13,6 +13,7 @@ type Subscripts = Record<string, Record<string, (...args: any) => any>> & {
 	gui: ErrorScripts
 	kernel: ErrorScripts
 	market: ErrorScripts
+	marks: ErrorScripts
 	scripts: ErrorScripts
 	sys: ErrorScripts
 	trust: ErrorScripts
@@ -508,6 +509,13 @@ type Highsec = Fullsec & PlayerHighsec & {
 		}
 	}
 
+	marks: {
+		/** **HIGHSEC** */ available: () => string
+		/** **HIGHSEC** */ protocol: (args?: {
+			pos?: [number, number]
+		}) => string
+	}
+
 	scripts: {
 		/** **HIGHSEC** */ sys: () => string | string[]
 	}
@@ -625,7 +633,8 @@ type Lowsec = Midsec & PlayerLowsec & {
 			description?: string
 			count?: number
 			no_notify?: boolean
-			confirm: true
+			confirm?: boolean
+			delist?: string
 		}) => ScriptResponse<{ token: string }>
 	}
 
