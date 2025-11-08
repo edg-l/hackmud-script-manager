@@ -1,5 +1,13 @@
 ## Note: This is a somewhat updated fork of https://github.com/samualtnorman/hackmud-script-manager#readme published at @ryo/hackmud-script-manager
 
+Changes:
+
+- Fixed expose_balance and expose_access_log return types
+- Added delist arg to market.sell
+- Added marks scripts
+
+Feel free to make a PR with improvements.
+
 # Hackmud Script Manager
 
 Command made for [Hackmud Scripting Environment](https://github.com/samualtnorman/hackmud-environment), which is a scripting environment for hackmud with minification, autocompletes / intellisense, and TypeScript support.
