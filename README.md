@@ -1,4 +1,4 @@
-## Note: This is a somewhat updated fork of https://github.com/samualtnorman/hackmud-script-manager#readme published at @ryo/hackmud-script-manager
+## Note: This is a somewhat updated fork of https://github.com/samualtnorman/hackmud-script-manager#readme published at hackmud-script-manager-next
 
 Changes:
 
