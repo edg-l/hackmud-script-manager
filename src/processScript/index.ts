@@ -1,6 +1,6 @@
 /* eslint-disable jsdoc/check-param-names */
 import type { NodePath, PluginItem } from "@babel/core"
-import type { LVal, Program } from "@babel/types"
+import type { LVal, Program, VoidPattern } from "@babel/types"
 import type { LaxPartial } from "@samual/lib"
 import { readFile, readdir as readFolder } from "fs/promises"
 import { basename as getPathBasename, relative as getRelativePath, isAbsolute as isAbsolutePath, sep as pathSeparator, resolve as resolvePath } from "path"
@@ -350,7 +350,7 @@ export async function processScript(code: string, {
 				}
 			},
 			VariableDeclarator(path) {
-				const renameVariables = (lValue: LVal) => {
+				const renameVariables = (lValue: LVal | VoidPattern) => {
 					switch (lValue.type) {
 						case `Identifier`:
 							if (includesIllegalString(lValue.name)) {
@@ -373,7 +373,7 @@ export async function processScript(code: string, {
 						case `ArrayPattern`:
 							for (const element of lValue.elements) {
 								if (element)
-									renameVariables(element)
+									renameVariables(element as LVal)
 							}
 
 							break
@@ -383,7 +383,7 @@ export async function processScript(code: string, {
 					}
 				}
 
-				renameVariables(path.node.id)
+				renameVariables(path.node.id as LVal)
 			},
 			ObjectProperty({ node: objectProperty }) {
 				if (objectProperty.key.type == `Identifier` && includesIllegalString(objectProperty.key.name)) {

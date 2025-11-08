@@ -1,6 +1,6 @@
 /* eslint-disable jsdoc/check-param-names */
 import type { NodePath, Scope } from "@babel/traverse"
-import type { ArrayExpression, Block, BlockStatement, CallExpression, File, FunctionDeclaration, Identifier, Node, ObjectExpression } from "@babel/types"
+import type { ArrayExpression, Block, BlockStatement, CallExpression, File, FunctionDeclaration, Identifier, LVal, Node, ObjectExpression } from "@babel/types"
 import type { LaxPartial } from "@samual/lib"
 import traverse from "@babel/traverse"
 import t from "@babel/types"
@@ -340,7 +340,7 @@ export function transform(
 
 				if (declarator.init) {
 					globalBlock.body
-						.push(t.expressionStatement(t.assignmentExpression(`=`, declarator.id, declarator.init)))
+						.push(t.expressionStatement(t.assignmentExpression(`=`, declarator.id as LVal, declarator.init)))
 				}
 			}
 		} else if (statement.type == `FunctionDeclaration`) {
