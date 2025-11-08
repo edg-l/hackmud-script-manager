@@ -104,6 +104,9 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: ^16.0.3
         version: 16.0.3(rollup@4.52.5)
+      '@ryo/hackmud-script-manager':
+        specifier: 'link:'
+        version: 'link:'
       '@samual/lib':
         specifier: ^0.13.0
         version: 0.13.0
