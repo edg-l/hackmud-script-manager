@@ -1,5 +1,5 @@
 {
-	"name": "hackmud-script-manager",
+	"name": "@ryo/hackmud-script-manager",
 	"type": "module",
 	"version": "0.22.0",
 	"private": true,
