@@ -623,6 +623,8 @@ type Midsec = Highsec & PlayerMidsec & {
 	}
 }
 
+type AccessLog = { t: Date, u: string | undefined, r: string | undefined, msg: string }
+
 type Lowsec = Midsec & PlayerLowsec & {
 	kernel: { /** **LOWSEC** */ hardline: () => ScriptResponse }
 
@@ -641,7 +643,7 @@ type Lowsec = Midsec & PlayerLowsec & {
 	sys: {
 		/** **LOWSEC** */ access_log: {
 			(args?: { user?: string, run_id?: string, is_script?: true, count?: number, start?: number }):
-				{ t: Date, u: string | undefined, r: string | undefined, msg: string }[] | ScriptFailure
+				AccessLog[] | ScriptFailure
 
 			(args: { user?: string, run_id?: string, is_script: false, count?: number, start?: number }): string[]
 		}
@@ -654,9 +656,9 @@ type Lowsec = Midsec & PlayerLowsec & {
 			(args: { i: number | number[], to: string, memo?: string }): ScriptResponse
 			(args: { sn: string | string[], to: string, memo?: string }): ScriptResponse
 		}
-		/** **LOWSEC**  */ expose_access_log: (args: { target: string }) => ScriptResponse
+		/** **LOWSEC**  */ expose_access_log: (args: { target: string }) => AccessLog[] | ScriptFailure
 		/** **LOWSEC** */ xfer_gc_from: (args: { target: string, amount: number | string }) => ScriptResponse
-		/** **LOWSEC** */ expose_balance: (args: { target: string }) => ScriptResponse
+		/** **LOWSEC** */ expose_balance: (args: { target: string }) => number | ScriptFailure
 	}
 }
 
@@ -770,17 +772,17 @@ type MongoDocument = MongoObject & { _id?: MongoId }
 
 type MongoQueryType<TQuery extends MongoQueryObject> = {
 	-readonly [K in keyof TQuery]:
-		TQuery[K] extends MongoPrimitive ?
-			TQuery[K]
+	TQuery[K] extends MongoPrimitive ?
+		TQuery[K]
 		: TQuery[K] extends { $type: infer TType } ?
 			TType extends keyof MongoTypeStringsToTypes ? MongoTypeStringsToTypes[TType] : unknown
-		: TQuery[K] extends { $in: (infer TIn)[] } ?
-			TIn
-		: keyof TQuery[K] extends `$${string}` ?
-			unknown
-		: TQuery[K] extends { [k: string]: any } ?
-			MongoQueryType<TQuery[K]>
-		: never
+			: TQuery[K] extends { $in: (infer TIn)[] } ?
+				TIn
+				: keyof TQuery[K] extends `$${string}` ?
+					unknown
+					: TQuery[K] extends { [k: string]: any } ?
+						MongoQueryType<TQuery[K]>
+						: never
 }
 
 type MongoCommandValue = MongoPrimitive | MongoCommandValue[] | { [k: string]: MongoCommandValue }
@@ -792,8 +794,8 @@ type MongoComparisonSelectors<T extends MongoValue = MongoValue> =
 type MongoElementSelectors = { $exists: boolean, $type: MongoTypeNumber | MongoTypeString }
 
 type MongoQuerySelector<T extends MongoValue> = Partial<
-	T extends []
-		? MongoArraySelectors<T> & MongoElementSelectors & MongoComparisonSelectors<T>
+	T extends [] ?
+		MongoArraySelectors<T> & MongoElementSelectors & MongoComparisonSelectors<T>
 		: MongoElementSelectors & MongoComparisonSelectors<T>
 >
 
@@ -824,18 +826,18 @@ type MongoUpdateCommand<T extends MongoObject> = Partial<{
 	$pop: Record<string, -1 | 1> & { [K in keyof T as T[K] extends [] ? K : never]?: -1 | 1 }
 
 	$push: Record<string, MongoCommandValue> & {
-		[K in keyof T as T[K] extends [] ? K : never]?: (T[K] extends (infer U)[] ? U : never)
-			| MongoUpdateArrayOperatorModifiers<T[K]>
+		[K in keyof T as T[K] extends [] ? K : never]?: (T[K] extends (infer U)[] ? U : never) |
+			MongoUpdateArrayOperatorModifiers<T[K]>
 	}
 
 	$addToSet: Partial<Record<string, MongoCommandValue> & {
-		[K in keyof T as T[K] extends [] ? K : never]: (T[K] extends (infer U)[] ? U : never)
-			| MongoUpdateArrayOperatorUniversalModifiers<T[K]>
+		[K in keyof T as T[K] extends [] ? K : never]: (T[K] extends (infer U)[] ? U : never) |
+			MongoUpdateArrayOperatorUniversalModifiers<T[K]>
 	}>
 
 	$pull: Partial<Record<string, MongoCommandValue> & {
-		[K in keyof T as T[K] extends [] ? K : never]: (T[K] extends (infer U)[] ? U : never)
-			| MongoQuerySelector<T[K]>
+		[K in keyof T as T[K] extends [] ? K : never]: (T[K] extends (infer U)[] ? U : never) |
+			MongoQuerySelector<T[K]>
 	}>
 
 	$pullAll: Record<string, MongoCommandValue> & { [K in keyof T as T[K] extends [] ? K : never]?: T[K] }
@@ -920,7 +922,7 @@ type MongoProject<TDocument, TProjection> =
 		true extends (1 extends TProjection[keyof TProjection] ? true : TProjection[keyof TProjection]) ?
 			{
 				[K in keyof TDocument as K extends
-					keyof TProjection ? TProjection[K] extends true | 1 ? K : never : never
+				keyof TProjection ? TProjection[K] extends true | 1 ? K : never : never
 				]: TDocument[K]
 			} &
 			{
@@ -928,7 +930,7 @@ type MongoProject<TDocument, TProjection> =
 					true | 1 ? K extends keyof TDocument ? never : K : never
 				]?: MongoValue
 			}
-		: { [k: string]: MongoValue } & { [K in keyof TDocument as K extends keyof TProjection ? never : K]: TDocument[K] }
+			: { [k: string]: MongoValue } & { [K in keyof TDocument as K extends keyof TProjection ? never : K]: TDocument[K] }
 	)
 
 type DeepFreeze<T> = { readonly [P in keyof T]: DeepFreeze<T[P]> }
