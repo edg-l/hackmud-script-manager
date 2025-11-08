@@ -20,34 +20,6 @@ type Subscripts = Record<string, Record<string, (...args: any) => any>> & {
 	users: ErrorScripts
 }
 
-type UpgradeRarityString = "`0noob`" | "`1kiddie`" | "`2h4x0r`" | "`3h4rdc0r3`" | "`4|_|b3|2`" | "`531337`"
-type UpgradeRarityNumber = 0 | 1 | 2 | 3 | 4 | 5
-
-type UpgradeBase = {
-	name: string
-	type: "lock" | "script_space" | "chat" | "script" | "tool" | "bot_brain" | "glam"
-	up_class?: -1 | 0 | 1 | 2 | 3
-	tier: 1 | 2 | 3 | 4
-	rarity: UpgradeRarityNumber
-	i: number
-	loaded: boolean
-	sn: string
-	description: string
-}
-
-type Upgrade = UpgradeBase & Record<string, null | boolean | number | string>
-
-type CliUpgrade = Omit<UpgradeBase, "rarity"> &
-	{ [k: string]: null | boolean | number | string, rarity: UpgradeRarityString }
-
-type UsersTopItem<R> = { rank: R, name: string, last_activity: string, balance: string }
-type CorpsTopItem<R> = { rank: R, name: string, worth: string }
-
-type CorpsTop = [
-	CorpsTopItem<1>, CorpsTopItem<2>, CorpsTopItem<3>, CorpsTopItem<4>, CorpsTopItem<5>,
-	CorpsTopItem<6>, CorpsTopItem<7>, CorpsTopItem<8>, CorpsTopItem<9>, CorpsTopItem<10>
-]
-
 type Fullsec = Subscripts & PlayerFullsec & {
 	accts: {
 		/** **FULLSEC** @returns GC balance of script owner. */ balance_of_owner: () => number
@@ -623,8 +595,6 @@ type Midsec = Highsec & PlayerMidsec & {
 	}
 }
 
-type AccessLog = { t: Date, u: string | undefined, r: string | undefined, msg: string }
-
 type Lowsec = Midsec & PlayerLowsec & {
 	kernel: { /** **LOWSEC** */ hardline: () => ScriptResponse }
 
@@ -942,6 +912,36 @@ declare global {
 	type Scriptor<TArgs = any> = { name: string, call: (args: TArgs) => unknown }
 	type Context = CliContext | SubscriptContext | ScriptorContext | BrainContext
 	type MongoObjectId = { $oid: string }
+
+	type AccessLog = { t: Date, u: string | undefined, r: string | undefined, msg: string }
+
+	type UpgradeRarityString = "`0noob`" | "`1kiddie`" | "`2h4x0r`" | "`3h4rdc0r3`" | "`4|_|b3|2`" | "`531337`"
+	type UpgradeRarityNumber = 0 | 1 | 2 | 3 | 4 | 5
+
+	type UpgradeBase = {
+		name: string
+		type: "lock" | "script_space" | "chat" | "script" | "tool" | "bot_brain" | "glam"
+		up_class?: -1 | 0 | 1 | 2 | 3
+		tier: 1 | 2 | 3 | 4
+		rarity: UpgradeRarityNumber
+		i: number
+		loaded: boolean
+		sn: string
+		description: string
+	}
+
+	type Upgrade = UpgradeBase & Record<string, null | boolean | number | string>
+
+	type CliUpgrade = Omit<UpgradeBase, "rarity"> &
+	{ [k: string]: null | boolean | number | string, rarity: UpgradeRarityString }
+
+	type UsersTopItem<R> = { rank: R, name: string, last_activity: string, balance: string }
+	type CorpsTopItem<R> = { rank: R, name: string, worth: string }
+
+	type CorpsTop = [
+		CorpsTopItem<1>, CorpsTopItem<2>, CorpsTopItem<3>, CorpsTopItem<4>, CorpsTopItem<5>,
+		CorpsTopItem<6>, CorpsTopItem<7>, CorpsTopItem<8>, CorpsTopItem<9>, CorpsTopItem<10>
+	]
 
 	/* eslint-disable ts/consistent-type-definitions */
 	interface PlayerFullsec {}
