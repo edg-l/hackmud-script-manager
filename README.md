@@ -1,3 +1,5 @@
+## Note: This is a somewhat updated fork of https://github.com/samualtnorman/hackmud-script-manager#readme published at @ryo/hackmud-script-manager
+
 # Hackmud Script Manager
 
 Command made for [Hackmud Scripting Environment](https://github.com/samualtnorman/hackmud-environment), which is a scripting environment for hackmud with minification, autocompletes / intellisense, and TypeScript support.
