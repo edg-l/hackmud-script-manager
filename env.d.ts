@@ -596,7 +596,7 @@ type Midsec = Highsec & PlayerMidsec & {
 }
 
 type Lowsec = Midsec & PlayerLowsec & {
-	kernel: { /** **LOWSEC** */ hardline: () => ScriptResponse }
+	kernel: { /** **LOWSEC** */ hardline: (args?: { activate?: boolean, dc?: boolean }) => ScriptResponse }
 
 	market: {
 		/** **LOWSEC** */ sell: (args: {
