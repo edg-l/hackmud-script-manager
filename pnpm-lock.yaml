@@ -23,9 +23,6 @@ importers:
       '@babel/plugin-proposal-do-expressions':
         specifier: ^7.28.3
         version: 7.28.3(@babel/core@7.24.4)
-      '@babel/plugin-proposal-explicit-resource-management':
-        specifier: ^7.25.9
-        version: 7.27.4(@babel/core@7.24.4)
       '@babel/plugin-proposal-function-bind':
         specifier: ^7.27.1
         version: 7.27.1(@babel/core@7.24.4)
@@ -50,6 +47,9 @@ importers:
       '@babel/plugin-transform-class-static-block':
         specifier: ^7.28.3
         version: 7.28.3(@babel/core@7.24.4)
+      '@babel/plugin-transform-explicit-resource-management':
+        specifier: ^7.28.0
+        version: 7.28.0(@babel/core@7.24.4)
       '@babel/plugin-transform-exponentiation-operator':
         specifier: ^7.28.5
         version: 7.28.5(@babel/core@7.24.4)
@@ -401,13 +401,6 @@ packages:
   '@babel/plugin-proposal-do-expressions@7.28.3':
     resolution: {integrity: sha512-ECK+gh44oX01DT5Z4n9QaIqXWluVJl4sCtdCfW1V2p4HZwV7t1rFwRdpHCN1b+FIxMUggBjOpODzZ7Ps0buJqA==}
     engines: {node: '>=6.9.0'}
-    peerDependencies:
-      '@babel/core': ^7.0.0-0
-
-  '@babel/plugin-proposal-explicit-resource-management@7.27.4':
-    resolution: {integrity: sha512-1SwtCDdZWQvUU1i7wt/ihP7W38WjC3CSTOHAl+Xnbze8+bbMNjRvRQydnj0k9J1jPqCAZctBFp6NHJXkrVVmEA==}
-    engines: {node: '>=6.9.0'}
-    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-explicit-resource-management instead.
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
@@ -3171,14 +3164,6 @@ snapshots:
     dependencies:
       '@babel/core': 7.24.4
       '@babel/helper-plugin-utils': 7.27.1
-
-  '@babel/plugin-proposal-explicit-resource-management@7.27.4(@babel/core@7.24.4)':
-    dependencies:
-      '@babel/core': 7.24.4
-      '@babel/helper-plugin-utils': 7.27.1
-      '@babel/plugin-transform-destructuring': 7.28.5(@babel/core@7.24.4)
-    transitivePeerDependencies:
-      - supports-color
 
   '@babel/plugin-proposal-function-bind@7.27.1(@babel/core@7.24.4)':
     dependencies:

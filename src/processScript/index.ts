@@ -8,9 +8,9 @@ import generate from "@babel/generator"
 import { parse } from "@babel/parser"
 import babelPluginProposalDecorators from "@babel/plugin-proposal-decorators"
 import babelPluginProposalDestructuringPrivate from "@babel/plugin-proposal-destructuring-private"
-import babelPluginProposalExplicitResourceManagement from "@babel/plugin-proposal-explicit-resource-management"
 import babelPluginTransformClassProperties from "@babel/plugin-transform-class-properties"
 import babelPluginTransformClassStaticBlock from "@babel/plugin-transform-class-static-block"
+import babelPluginTransformExplicitResourceManagement from "@babel/plugin-transform-explicit-resource-management"
 import babelPluginTransformExponentiationOperator from "@babel/plugin-transform-exponentiation-operator"
 import babelPluginTransformJsonStrings from "@babel/plugin-transform-json-strings"
 import babelPluginTransformLogicalAssignmentOperators from "@babel/plugin-transform-logical-assignment-operators"
@@ -175,7 +175,7 @@ export async function processScript(code: string, {
 		[ babelPluginTransformExponentiationOperator ],
 		[ babelPluginTransformUnicodeSetsRegex ],
 		[ babelPluginProposalDestructuringPrivate ],
-		[ babelPluginProposalExplicitResourceManagement ]
+		[ babelPluginTransformExplicitResourceManagement ]
 	]
 
 	let filePathResolved
