@@ -420,6 +420,10 @@ type Fullsec = Subscripts & PlayerFullsec & {
 			<I extends number>(args: { i: I }): (
 				Omit<UpgradeBase, "i"> & { [x: string]: null | boolean | number | string, i: I }
 			) | ScriptFailure
+
+			<I extends number>(args: { i: I[] }): (
+				Omit<UpgradeBase, "i"> & { [x: string]: null | boolean | number | string, i: I }
+			)[] | ScriptFailure
 		}
 
 		/** **FULLSEC** */
