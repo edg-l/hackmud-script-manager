@@ -233,7 +233,7 @@ type Fullsec = Subscripts & PlayerFullsec & {
 			colors: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 			/** Used by `$fs.scripts.lib().corrupt()` to determine the frequency of corruption. */
-			corruptions: [ 0, 1, 1.5, 2.5, 5 ]
+			corruptions: [0, 1, 1.5, 2.5, 5]
 
 			/** Adds colored corruption characters to `text`, with frequency determined by `amount`. */
 			corrupt: (text: string | string[], amount: 0 | 1 | 2 | 3 | 4) => string
@@ -284,13 +284,13 @@ type Fullsec = Subscripts & PlayerFullsec & {
 			num_sort_desc: (one: number, two: number) => 1 | -1 | 0
 
 			/** @returns The value and the index of the largest number in `array`. */
-			max_val_index: (array: number[]) => [ largestValue: number, index: number ]
+			max_val_index: (array: number[]) => [largestValue: number, index: number]
 
 			/** @returns A new `Date` equivalent to `date.getTime() + add_ms`. */
 			add_time: (date: Date, add_ms: number) => Date
 
 			/** Array of strings representing seclevels. */
-			security_level_names: [ "NULLSEC", "LOWSEC", "MIDSEC", "HIGHSEC", "FULLSEC" ]
+			security_level_names: ["NULLSEC", "LOWSEC", "MIDSEC", "HIGHSEC", "FULLSEC"]
 
 			/** @returns The string name of a numeric security level. */
 			get_security_level_name: (security_level: number) => string
@@ -406,24 +406,17 @@ type Fullsec = Subscripts & PlayerFullsec & {
 
 		/** **FULLSEC** */
 		upgrades_of_owner: {
-			<F extends Partial<Upgrade & { loaded: boolean }> = object>(args?: { filter?: F, full?: false }): (
-				Omit<
-					Pick<UpgradeBase, "tier" | "rarity" | "name" | "type" | "i" | "loaded">,
-					keyof F
-				> & Pick<F, "tier" | "rarity" | "name" | "type" | "i" | "loaded">
-			)[] | ScriptFailure
-
 			<F extends Partial<Upgrade & { loaded: boolean }> = object>(args: { filter?: F, full: true }): (
-				Omit<UpgradeBase, keyof F> & F & Record<string, null | boolean | number | string>
+				Omit<Upgrade, keyof F> & F
 			)[] | ScriptFailure
 
-			<I extends number>(args: { i: I }): (
-				Omit<UpgradeBase, "i"> & { [x: string]: null | boolean | number | string, i: I }
-			) | ScriptFailure
-
-			<I extends number>(args: { i: I[] }): (
-				Omit<UpgradeBase, "i"> & { [x: string]: null | boolean | number | string, i: I }
+			<F extends Partial<Upgrade & { loaded: boolean }> = object>(args?: { filter?: F, full?: boolean }): (
+				Upgrade
 			)[] | ScriptFailure
+
+			<I extends number>(args: { i: I }): Upgrade | ScriptFailure
+
+			<I extends number>(args: { i: I[] }): Upgrade[] | ScriptFailure
 		}
 
 		/** **FULLSEC** */
@@ -502,8 +495,7 @@ type Highsec = Fullsec & PlayerHighsec & {
 
 		/** **HIGHSEC** */
 		upgrade_log: {
-			(args?: { is_script?: true, user?: string, run_id?: string, count?: number, start?: number }):
-				{ t: Date, u: string, r: string, msg: string }[] | ScriptFailure
+			(args?: { is_script?: true, user?: string, run_id?: string, count?: number, start?: number }): { t: Date, u: string, r: string, msg: string }[] | ScriptFailure
 
 			(args: { is_script: false, user?: string, run_id?: string, count?: number, start?: number }):
 				string[] | ScriptFailure
@@ -521,13 +513,12 @@ type Highsec = Fullsec & PlayerHighsec & {
 				full?: false
 			}): (
 				Omit<Pick<UpgradeBase, "tier" | "rarity" | "name" | "type" | "i" | "loaded">, keyof F> & F &
-					Record<string, null | boolean | number | string>
+				Record<string, null | boolean | number | string>
 			)[] | ScriptFailure
 
 			<F extends Partial<Upgrade & { loaded: boolean }> = object>(args?: { filter?: F, is_script?: true, full: true }): (Omit<UpgradeBase, keyof F> & F & Record<string, null | boolean | number | string>)[] | ScriptFailure
 
-			(args?: { filter?: Partial<Upgrade & { loaded: boolean }>, is_script: false, full?: false }):
-				{ msg: string, upgrades: string[] } | ScriptFailure
+			(args?: { filter?: Partial<Upgrade & { loaded: boolean }>, is_script: false, full?: false }): { msg: string, upgrades: string[] } | ScriptFailure
 
 			<F extends Partial<Upgrade & { loaded: boolean }> = object>(
 				args?: { filter?: F, is_script: false, full: true }
@@ -593,7 +584,7 @@ type Midsec = Highsec & PlayerMidsec & {
 		manage: {
 			(args: { unload?: number | number[], load?: number | number[] }): ScriptResponse
 
-			(args: { reorder?: ([ number, number ] | { from: number, to: number })[] | { from: number, to: number } }):
+			(args: { reorder?: ([number, number] | { from: number, to: number })[] | { from: number, to: number } }):
 				string[] | ScriptFailure
 		}
 	}
@@ -617,7 +608,7 @@ type Lowsec = Midsec & PlayerLowsec & {
 	sys: {
 		/** **LOWSEC** */ access_log: {
 			(args?: { user?: string, run_id?: string, is_script?: true, count?: number, start?: number }):
-				AccessLog[] | ScriptFailure
+			AccessLog[] | ScriptFailure
 
 			(args: { user?: string, run_id?: string, is_script: false, count?: number, start?: number }): string[]
 		}
@@ -769,7 +760,7 @@ type MongoElementSelectors = { $exists: boolean, $type: MongoTypeNumber | MongoT
 
 type MongoQuerySelector<T extends MongoValue> = Partial<
 	T extends [] ?
-		MongoArraySelectors<T> & MongoElementSelectors & MongoComparisonSelectors<T>
+	MongoArraySelectors<T> & MongoElementSelectors & MongoComparisonSelectors<T>
 		: MongoElementSelectors & MongoComparisonSelectors<T>
 >
 
@@ -778,7 +769,7 @@ type MongoQuery<T extends MongoObject> = { [K in keyof T]?: T[K] | MongoQuerySel
 type MongoUpdateArrayOperatorUniversalModifiers<T> = { $each?: T extends [] ? T : T[] }
 
 type MongoUpdateArrayOperatorModifiers<T> = MongoUpdateArrayOperatorUniversalModifiers<T> &
-	{ $position?: number, $slice?: number, $sort?: 1 | -1 }
+{ $position?: number, $slice?: number, $sort?: 1 | -1 }
 
 type MongoUpdateCommand<T extends MongoObject> = Partial<{
 	/* Universal operators */
@@ -790,7 +781,7 @@ type MongoUpdateCommand<T extends MongoObject> = Partial<{
 
 	/* Date & number operators */
 	$inc: Record<string, number> &
-		{ [K in keyof T as T[K] extends number | Date ? K : never]?: T[K] extends number ? number : Date }
+	{ [K in keyof T as T[K] extends number | Date ? K : never]?: T[K] extends number ? number : Date }
 
 	$mul: Record<string, number> & { [K in keyof T as T[K] extends number ? K : never]?: number }
 	$min: Record<string, number> & { [K in keyof T as T[K] extends number ? K : never]?: number }
@@ -801,17 +792,17 @@ type MongoUpdateCommand<T extends MongoObject> = Partial<{
 
 	$push: Record<string, MongoCommandValue> & {
 		[K in keyof T as T[K] extends [] ? K : never]?: (T[K] extends (infer U)[] ? U : never) |
-			MongoUpdateArrayOperatorModifiers<T[K]>
+		MongoUpdateArrayOperatorModifiers<T[K]>
 	}
 
 	$addToSet: Partial<Record<string, MongoCommandValue> & {
 		[K in keyof T as T[K] extends [] ? K : never]: (T[K] extends (infer U)[] ? U : never) |
-			MongoUpdateArrayOperatorUniversalModifiers<T[K]>
+		MongoUpdateArrayOperatorUniversalModifiers<T[K]>
 	}>
 
 	$pull: Partial<Record<string, MongoCommandValue> & {
 		[K in keyof T as T[K] extends [] ? K : never]: (T[K] extends (infer U)[] ? U : never) |
-			MongoQuerySelector<T[K]>
+		MongoQuerySelector<T[K]>
 	}>
 
 	$pullAll: Record<string, MongoCommandValue> & { [K in keyof T as T[K] extends [] ? K : never]?: T[K] }
@@ -820,21 +811,36 @@ type MongoUpdateCommand<T extends MongoObject> = Partial<{
 type SortOrder = { [key: string]: 1 | -1 | SortOrder }
 
 type Cursor<T> = {
-	/** Returns the first document that satisfies the query. */ first: () => T | null
-	/** Returns an array of documents that satisfy the query. */ array: () => T[]
-	/** Returns the number of documents that match the query. */ count: () => number
+	/** Returns the first document that satisfies the query. */
+	first: () => T | null
+	/** Returns an array of documents that satisfy the query. */
+	array: () => T[]
+	/** Returns the number of documents that match the query. */
+	count: () => number
 
 	/** Returns the first document that satisfies the query. Also makes cursor unusable. */
 	first_and_close: () => T
 
+	/** Returns the first document that satisfies the query.  Keeps cursor open. */
+	first_and_open: () => T
+
 	/** Returns an array of documents that satisfy the query. Also makes cursor unusable. */
 	array_and_close: () => T[]
+
+	/** Returns an array of documents that satisfy the query. Keeps cursor open. */
+	array_and_open: () => T[]
 
 	/** Returns the number of documents that match the query. Also makes cursor unusable. */
 	count_and_close: () => number
 
+	/** Returns the number of documents that match the query. Keeps cursor open. */
+	count_and_keep_open: () => number
+
 	/** Run `callback` on each document that satisfied the query. */
 	each: (callback: (document: T) => void) => null
+
+	/** Run `callback` on each document that satisfied the query. Keeps cursor open */
+	each_and_keep_open: (callback: (document: T) => void) => null
 
 	/**
 	 * Returns a new cursor with documents sorted as specified.
@@ -855,8 +861,15 @@ type Cursor<T> = {
 	 */
 	limit: (count: number) => Cursor<T>
 
-	/** @param key The key of the documents. */ distinct: { (key: string): MongoValue[], (key: "_id"): MongoId[] }
-	/** Make cursor unusable. */ close: () => null
+	/** @param key The key of the documents. Keeps cursor open */
+	distinct_and_keep_open: { (key: string): MongoValue[], (key: "_id"): MongoId[] }
+
+	/** @param key The key of the documents. */
+	distinct: { (key: string): MongoValue[], (key: "_id"): MongoId[] }
+
+	/** Make cursor unusable. */
+	close: () => null
+
 	NumberLong: (number: number) => number
 	// TODO what actually is the type here?
 	ObjectId: () => any
@@ -894,16 +907,16 @@ type BrainContext = Replace<CliContext, { /** Whether the script is being run vi
 type MongoProject<TDocument, TProjection> =
 	(TProjection extends { _id: false | 0 } ? {} : { _id: TDocument extends { _id: infer TId } ? TId : MongoId }) & (
 		true extends (1 extends TProjection[keyof TProjection] ? true : TProjection[keyof TProjection]) ?
-			{
-				[K in keyof TDocument as K extends
-				keyof TProjection ? TProjection[K] extends true | 1 ? K : never : never
-				]: TDocument[K]
-			} &
-			{
-				-readonly [K in keyof TProjection as TProjection[K] extends
-					true | 1 ? K extends keyof TDocument ? never : K : never
-				]?: MongoValue
-			}
+		{
+			[K in keyof TDocument as K extends
+			keyof TProjection ? TProjection[K] extends true | 1 ? K : never : never
+			]: TDocument[K]
+		} &
+		{
+			-readonly [K in keyof TProjection as TProjection[K] extends
+			true | 1 ? K extends keyof TDocument ? never : K : never
+			]?: MongoValue
+		}
 			: { [k: string]: MongoValue } & { [K in keyof TDocument as K extends keyof TProjection ? never : K]: TDocument[K] }
 	)
 
@@ -948,11 +961,11 @@ declare global {
 	]
 
 	/* eslint-disable ts/consistent-type-definitions */
-	interface PlayerFullsec {}
-	interface PlayerHighsec {}
-	interface PlayerMidsec {}
-	interface PlayerLowsec {}
-	interface PlayerNullsec {}
+	interface PlayerFullsec { }
+	interface PlayerHighsec { }
+	interface PlayerMidsec { }
+	interface PlayerLowsec { }
+	interface PlayerNullsec { }
 	/* eslint-enable ts/consistent-type-definitions */
 
 	/** Subscript space that can call FULLSEC scripts. */ const $fs: Fullsec
@@ -1149,4 +1162,4 @@ declare global {
 	const _RUN_ID: string
 }
 
-export {}
+export { }
