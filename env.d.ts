@@ -74,10 +74,13 @@ type Fullsec = Subscripts & PlayerFullsec & {
 		 * @description This script lets you send a message to the specified channel.
 		 * You must have joined the channel, and you will see your own message (unlike chats.tell).
 		 */
-		send: (args: {
+		send: ((args: {
 			/** The channel to send the message to. */ channel: string
 			/** The message to send. */ msg: string
-		}) => ScriptResponse
+		}) => ScriptResponse) & ((args: {
+			/** The channel  to send the message to. */ c: string
+			/** The message to  send. */ msg: string
+		}) => ScriptResponse)
 
 		/**
 		 * **FULLSEC**
