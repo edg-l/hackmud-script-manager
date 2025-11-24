@@ -649,6 +649,8 @@ type Nullsec = Lowsec & PlayerNullsec & {
 		/** **NULLSEC** */ top: () => CorpsTop | { top: CorpsTop, active: { name: string, worth: string } }
 	}
 
+	marks: { /** **NULLSEC** */ clone: (args?:{ name?:string }) => ScriptResponse }
+
 	sys: { /** **NULLSEC** */ breach: (args: { confirm: true }) => ScriptResponse }
 	trust: { /** **NULLSEC** */ me: () => string }
 
