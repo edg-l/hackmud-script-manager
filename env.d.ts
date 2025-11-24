@@ -825,13 +825,13 @@ type Cursor<T> = {
 	first_and_close: () => T
 
 	/** Returns the first document that satisfies the query.  Keeps cursor open. */
-	first_and_open: () => T
+	first_and_keep_open: () => T
 
 	/** Returns an array of documents that satisfy the query. Also makes cursor unusable. */
 	array_and_close: () => T[]
 
 	/** Returns an array of documents that satisfy the query. Keeps cursor open. */
-	array_and_open: () => T[]
+	array_and_keep_open: () => T[]
 
 	/** Returns the number of documents that match the query. Also makes cursor unusable. */
 	count_and_close: () => number
