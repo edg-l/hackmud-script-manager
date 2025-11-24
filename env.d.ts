@@ -968,7 +968,8 @@ declare global {
 	interface PlayerNullsec { }
 	/* eslint-enable ts/consistent-type-definitions */
 
-	/** Subscript space that can call FULLSEC scripts. */ const $fs: Fullsec
+	/** Subscript space that can call FULLSEC scripts. */
+	const $fs: Fullsec
 	/** Subscript space that can call HIGHSEC and above scripts. Makes your script HIGHSEC (overrides FULLSEC). */
 	const $hs: Highsec
 	/**
@@ -981,7 +982,8 @@ declare global {
 	const $ls: Lowsec
 	/** Subscript space that can call any script. Makes your script NULLSEC (overrides higher security levels). */
 	const $ns: Nullsec
-	/** Subscript space that can call FULLSEC scripts. */ const $4s: typeof $fs
+	/** Subscript space that can call FULLSEC scripts. */
+	const $4s: typeof $fs
 	/** Subscript space that can call HIGHSEC and above scripts. Makes your script HIGHSEC (overrides FULLSEC). */
 	const $3s: typeof $hs
 	/**
