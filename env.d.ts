@@ -1120,6 +1120,7 @@ declare global {
 	const _TIMEOUT: number
 	/** The number of milliseconds a script can run for. Normally `5000` though it has been known to change. */
 	const _TO: typeof _TIMEOUT
+	/** A function to deep-clone an object. */ const _CLONE: <T>(obj: T) => T
 	/** The source code of this script as a string. */ const _SOURCE: string
 	/** A unix timestamp of the date this script was built. */ const _BUILD_DATE: number
 	/**
