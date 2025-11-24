@@ -628,6 +628,25 @@ type Lowsec = Midsec & PlayerLowsec & {
 }
 
 type Nullsec = Lowsec & PlayerNullsec & {
+	binmat: {
+		/**
+		 * **NULLSEC**
+		 */
+		connect: (args: { target: string, trace: Trace, brain?: string }) => ScriptResponse,
+		/**
+		 * **NULLSEC**
+		 */
+		c: typeof $ns.binmat.connect,
+		/**
+		 * **NULLSEC**
+		 */
+		xform: (args: { op: Op }) => ScriptResponse,
+		/**
+		 * **NULLSEC**
+		 */
+		x: typeof $ns.binmat.xform
+	}
+
 	corps: {
 		/** **NULLSEC** */ create: (args: { name: string, confirm: true }) => ScriptResponse
 		/** **NULLSEC** */ hire: (args: { name: string }) => ScriptResponse
