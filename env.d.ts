@@ -484,7 +484,9 @@ type Highsec = Fullsec & PlayerHighsec & {
 	marks: {
 		/** **HIGHSEC** */ available: () => string
 		/** **HIGHSEC** */ protocol: (args?: {
-			pos?: [number, number]
+			pos?: [number, number],
+			name?: string,
+			[foo: any]: any
 		}) => string
 	}
 
@@ -649,6 +651,8 @@ type Nullsec = Lowsec & PlayerNullsec & {
 		/** **NULLSEC** */ quit: (args: { confirm: true }) => ScriptResponse
 		/** **NULLSEC** */ top: () => CorpsTop | { top: CorpsTop, active: { name: string, worth: string } }
 	}
+
+	marks: { /** **NULLSEC** */ clone: (args?:{ name?:string }) => ScriptResponse }
 
 	sys: { /** **NULLSEC** */ breach: (args: { confirm: true }) => ScriptResponse }
 	trust: { /** **NULLSEC** */ me: () => string }
