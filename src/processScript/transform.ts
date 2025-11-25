@@ -294,7 +294,7 @@ export function transform(
 
 			if (
 				(specifier.exported.type == `Identifier` ? specifier.exported.name : specifier.exported.value) !=
-					`default`
+				`default`
 			)
 				throw Error(`Only default exports are supported`)
 
@@ -317,7 +317,7 @@ export function transform(
 						declarator.init.params,
 						declarator.init.body.type == `BlockStatement` ?
 							declarator.init.body
-						: t.blockStatement([ t.returnStatement(declarator.init.body) ])
+							: t.blockStatement([ t.returnStatement(declarator.init.body) ])
 					)
 
 					continue
@@ -631,7 +631,7 @@ export function transform(
 			[ ...neededDbMethodLets ].map(name => {
 				const getArgs = () => name == `ObjectId` ?
 					[]
-				: (name == `i` || name == `r` ? [ t.identifier(`a`) ] : [ t.identifier(`a`), t.identifier(`b`) ])
+					: (name == `i` || name == `r` ? [ t.identifier(`a`) ] : [ t.identifier(`a`), t.identifier(`b`) ])
 
 				return t.variableDeclarator(
 					t.identifier(`_${uniqueId}_CONSOLE_METHOD_${name}_`),
@@ -960,8 +960,7 @@ export function transform(
 
 			if (referencePath.parentPath.parentPath.parentPath?.type == `CallExpression`) {
 				// BUG this is causing typescript to be slow
-				referencePath.parentPath.parentPath.replaceWith(t.identifier(`$${uniqueId}$${seclevel}$SUBSCRIPT$${
-					referencePath.parent.property.name
+				referencePath.parentPath.parentPath.replaceWith(t.identifier(`$${uniqueId}$${seclevel}$SUBSCRIPT$${referencePath.parent.property.name
 				}$${referencePath.parentPath.parentPath.node.property.name}$`))
 			} else {
 				const name =
