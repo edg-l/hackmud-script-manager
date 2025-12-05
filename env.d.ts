@@ -629,6 +629,9 @@ type Lowsec = Midsec & PlayerLowsec & {
 		/** **LOWSEC**  */ expose_access_log: (args: { target: string }) => AccessLog[] | ScriptFailure
 		/** **LOWSEC** */ xfer_gc_from: (args: { target: string, amount: number | string }) => ScriptResponse
 		/** **LOWSEC** */ expose_balance: (args: { target: string }) => number | ScriptFailure
+
+		/** **LOWSEC** */ expose_upgrades: (args: { target: string }) => UpgradeBase[] | ScriptFailure
+		/** **LOWSEC** */ xfer_upgrade_from: (args: { target: string, i: number | number[] }) => ScriptResponse<{}>
 	}
 }
 
