@@ -326,7 +326,8 @@ export async function processScript(code: string, {
 	code = generate(file).code
 
 	if (shouldMinify)
-		code = await minify(file, { uniqueId, mangleNames, forceQuineCheats, autocomplete })
+		// code = await minify(file, { uniqueId, mangleNames, forceQuineCheats, autocomplete })
+		code = await minify(file, { uniqueId, mangleNames, forceQuineCheats })
 	else {
 		traverse(file, {
 			MemberExpression({ node: memberExpression }) {
@@ -420,7 +421,7 @@ export async function processScript(code: string, {
 		)
 	}
 
-	code = postprocess(code, uniqueId)
+	code = postprocess(code, uniqueId, autocomplete)
 
 	if (includesIllegalString(code)) {
 		throw Error(
