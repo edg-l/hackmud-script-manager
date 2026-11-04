@@ -14,11 +14,11 @@ export async function syncMacros(hackmudPath: string): Promise<{ macrosSynced: n
 		switch (getFileExtension(file.name)) {
 			case `.macros`: {
 				const [ lines, date ] = await Promise.all([
-					readFile(resolvePath(hackmudPath, file.name), { encoding: `utf8` }).then(file => file.split(`\n`)),
+					readFile(resolvePath(hackmudPath, file.name), { encoding: `utf8` }).then(file => file.split(/\r?\n/)),
 					getFileStatus(resolvePath(hackmudPath, file.name)).then(({ mtime }) => mtime)
 				])
 
-				for (let index = 0; index < (lines.length / 2) - 1; index++) {
+				for (let index = 0; (index * 2) + 1 < lines.length; index++) {
 					const macroName = lines[index * 2]!
 					const currentMacro = macros.get(macroName)
 
