@@ -533,7 +533,8 @@ export function transform(
 					)
 
 					needG = true
-				}
+				} else
+					globalBlockVariables.add(globalBlockStatement.id.name)
 			}
 		}
 
