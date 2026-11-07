@@ -161,7 +161,8 @@ export async function minify(
 				passes: Infinity,
 				unsafe: true,
 				unsafe_arrows: true,
-				unsafe_comps: true,
+				// breaks NaN comparisons: !(a < b) is not a >= b
+				unsafe_comps: false,
 				unsafe_symbols: true,
 				unsafe_methods: true,
 				unsafe_proto: true,
@@ -449,7 +450,8 @@ export async function minify(
 			passes: Infinity,
 			unsafe: true,
 			unsafe_arrows: true,
-			unsafe_comps: true,
+			// breaks NaN comparisons: !(a < b) is not a >= b
+			unsafe_comps: false,
 			unsafe_symbols: true,
 			unsafe_methods: true,
 			unsafe_proto: true,
